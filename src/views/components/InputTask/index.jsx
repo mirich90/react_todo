@@ -9,14 +9,17 @@ export const InputTask = ({
   title,
   text,
   isDone,
+  isDisplay,
   date,
+  onDisplay,
   onDone,
   onRemove,
   onEdited,
 }) => {
   const [checked, setChecked] = useState(isDone);
   const [isEditMode, setEditMode] = useState(false);
-  const [value, setValue] = useState(text);
+  const [valueTitle, setValueTitle] = useState(title);
+  const [valueText, setValueText] = useState(text);
   const editTextInputRef = useRef(null);
   const options = {
     weekday: "long",
@@ -36,8 +39,17 @@ export const InputTask = ({
   return (
     <div className={styles.inputTaskWrapper}>
       <div className={styles.inputTaskHeader}>
-        <div className={styles.inputTaskHeaderCollapse}>
-          <div className={styles.inputTaskHeaderCollapseIcon}></div>
+        <div
+          className={styles.inputTaskHeaderCollapse}
+          onClick={() => {
+            onDisplay(id);
+          }}
+        >
+          <div
+            className={`${styles.inputTaskHeaderCollapseIcon} ${
+              isDisplay ? "" : "rotate"
+            }`}
+          ></div>
         </div>
 
         <div className={styles.inputTaskHeaderDot}></div>
@@ -47,13 +59,31 @@ export const InputTask = ({
             {date.toLocaleDateString("ru-RU", options)}
           </time>
 
-          <h2 className={`${styles.inputTaskTitle} ${isDone ? "done" : ""}`}>
-            {title}
-          </h2>
+          {isEditMode ? (
+            <input
+              ref={editTextInputRef}
+              value={valueTitle}
+              name="title"
+              onChange={(e) => {
+                setValueTitle(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onEdited(id, valueTitle, valueText);
+                  setEditMode(false);
+                }
+              }}
+              className={styles.inputTaskTitleEdit}
+            />
+          ) : (
+            <h2 className={`${styles.inputTaskTitle} ${isDone ? "done" : ""}`}>
+              {title}
+            </h2>
+          )}
         </div>
       </div>
 
-      <div className={styles.inputTask}>
+      <div className={`${styles.inputTask} ${isDisplay ? "" : "hidden"}`}>
         <label className={styles.inputTaskLabel}>
           <input
             type="checkbox"
@@ -70,11 +100,17 @@ export const InputTask = ({
           {isEditMode ? (
             <textarea
               ref={editTextInputRef}
-              value={value}
-              rows="4"
+              value={valueText}
+              rows="3"
               name="text"
               onChange={(e) => {
-                setValue(e.target.value);
+                setValueText(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onEdited(id, valueTitle, valueText);
+                  setEditMode(false);
+                }
               }}
               className={styles.inputTaskTextEdit}
             ></textarea>
@@ -88,7 +124,7 @@ export const InputTask = ({
         {isEditMode ? (
           <button
             onClick={() => {
-              onEdited(id, value);
+              onEdited(id, valueTitle, valueText);
               setEditMode(false);
             }}
             aria-label="Save"

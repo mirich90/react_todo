@@ -16,27 +16,39 @@ export const generateDate = (h, m) => {
 };
 
 export const App = () => {
+  const [isDescriptionDisplay, setDescriptionDisplay] = React.useState(true);
   const [tasks, setTasks] = React.useState([
     {
       id: generateId(),
-      title: "Unix Epoch",
+      title: "Перебудил всех",
       isDone: true,
+      isDisplay: true,
       date: generateDate(1, 57),
-      text: "This is the day the Unix clock began (or December 31, 1969 if you live behind UTC 😉).",
+      text: "Просыпался в 6 часов, перебудил всех, но от лени не встал и проспал до 9",
     },
     {
       id: generateId(),
-      title: "1 Billion Seconds",
+      title: "Главные мои недостатки.",
       isDone: false,
+      isDisplay: false,
       date: generateDate(5, 26),
-      text: "At 6:36:57 PM UTC, the date in ISO 8601 format (1973-10-17) within the time digits (119731017) appeared for the first time.",
+      text: "1) Неосновательность (под этим я разумею: нерешительность, непостоянство и непоследовательность). 2) Неприятный тяжелый характер, раздражительность, излишнее самолюбие, тщеславие. 3) Привычка к праздности. Буду стараться постоянно наблюдать за этими тремя основными пороками и записывать всякий раз, что буду впадать в них».",
     },
     {
       id: generateId(),
-      title: "Digits Within ISO 8601 Format",
+      title: "Просто 'весь ваш'",
       isDone: false,
+      isDisplay: true,
       date: generateDate(9, 26),
-      text: "Unix time reached 1,000,000,000 seconds at 1:46:40 AM UTC. The Danish UNIX User Group celebrated this in Copenhagen, Denmark.",
+      text: "Утром читал и писал немного. Вечером побольше, но все не только без увлечения, но с какою-то непреодолимой ленью. Решился не брать фортепьян и ответил Олхину, что у меня денег нет, чем он верно обиделся, тем более, что я подписал просто 'весь ваш'",
+    },
+    {
+      id: generateId(),
+      title: "Непростительная нерешительность",
+      isDone: false,
+      isDisplay: true,
+      date: generateDate(11, 26),
+      text: "Встал поздно и все утро читал Шиллера, но без удовольствия и увлечения. После обеда, хотя и был в расположении заниматься, от лени написал чрезвычайно мало. Вечер же весь провел в шляньи за девками. Много было интересного в нынешнем дне: и чтение деньщиков, и rendez-vous в саду, и обман Шубина. Обо всем напишу завтра, ибо теперь 1/2 3-го. Упрекаю себя за лень и в последний раз. Ежели завтра я ничего не сделаю, я застрелюсь. Еще упрекаю за непростительную нерешительность с девками",
     },
   ]);
 
@@ -58,6 +70,7 @@ export const App = () => {
                 title,
                 text,
                 isDone: false,
+                isDisplay: true,
                 date: new Date(),
               },
               ...tasks,
@@ -70,15 +83,15 @@ export const App = () => {
 
       <section className={styles.articleSection}>
         <Button
-          text="Свернуть все"
+          text={isDescriptionDisplay ? "Развернуть все" : "Свернуть все"}
           click={(id) => {
-            setTasks(tasks.filter((task) => task.id !== id));
-          }}
-        />
-        <Button
-          text="Развернуть все"
-          click={(id) => {
-            setTasks(tasks.filter((task) => task.id !== id));
+            setTasks(
+              tasks.map((task) => ({
+                ...task,
+                isDisplay: isDescriptionDisplay,
+              }))
+            );
+            setDescriptionDisplay(!isDescriptionDisplay);
           }}
         />
       </section>
@@ -93,24 +106,33 @@ export const App = () => {
             key={task.id}
             id={task.id}
             title={task.title}
+            isDisplay={task.isDisplay}
             isDone={task.isDone}
             text={task.text}
             date={task.date}
             onDone={(id) => {
               setTasks(
-                tasks.map((task) => {
-                  if (task.id === id) task.isDone = !task.isDone;
-                  return task;
-                })
+                tasks.map((task) =>
+                  task.id === id ? { ...task, isDone: !task.isDone } : task
+                )
+              );
+            }}
+            onDisplay={(id) => {
+              setTasks(
+                tasks.map((task) =>
+                  task.id === id
+                    ? { ...task, isDisplay: !task.isDisplay }
+                    : task
+                )
               );
             }}
             onRemove={(id) => {
               setTasks(tasks.filter((task) => task.id !== id));
             }}
-            onEdited={(id, value) => {
+            onEdited={(id, title, text) => {
               setTasks(
                 tasks.map((task) =>
-                  task.id === id ? { ...task, text: value } : task
+                  task.id === id ? { ...task, title, text } : task
                 )
               );
             }}

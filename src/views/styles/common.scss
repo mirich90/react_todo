@@ -25,3 +25,13 @@ body {
 .done {
   text-decoration: line-through;
 }
+
+.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+.rotate {
+  transform: rotate(-90deg) !important;
+}

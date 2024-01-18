@@ -23,12 +23,12 @@
     &CollapseIcon {
       display: block;
       pointer-events: none;
-      //   transform: rotate(-90deg);
       transform: rotate(1deg);
       transition: transform var(--trans-dur) var(--trans-timing);
       width: 100%;
       height: 100%;
     }
+
     &Dot {
       flex-shrink: 0;
       background-color: currentColor;
@@ -58,13 +58,15 @@
   }
 
   .inputTask {
-    background-color: hsl(var(--hue), 10%, 50%, 0.2);
-    border-radius: 10px;
     display: grid;
     grid-template-columns: 1fr auto auto;
     align-items: center;
     padding-right: 15px;
     margin-inline-start: 4em;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    transition: var(--trans-dur);
 
     &:last-child {
       margin-bottom: 0;
@@ -79,15 +81,17 @@
     }
 
     &Label {
+      border-radius: 10px;
+      background-color: hsl(var(--hue), 10%, 50%, 0.2);
       display: grid;
       grid-template-columns: auto 1fr;
       align-items: center;
       cursor: pointer;
       padding: 12px 15px;
+      transition-delay: var(--trans-dur), 0s;
     }
 
     &Title {
-      line-height: 0.4;
     }
 
     &Text {
@@ -95,12 +99,23 @@
       font-weight: 400;
     }
 
+    &TitleEdit,
     &TextEdit {
       font: 1rem/1em "Roboto", sans-serif;
       border: none;
-      padding: 5px;
+      padding: 0.25em 1em;
+      font-size: 1.17em;
+      line-height: 1.4;
       background: none;
-      box-shadow: 0 4px 0 -3px var(--primary);
+      border: var(--fg) solid 3px;
+    }
+
+    &TitleEdit {
+      display: block;
+      font-size: 1.5em;
+      font-weight: bold;
+      padding: 0.43em 0;
+      margin: 0.4em 0;
     }
 
     &Edit,
