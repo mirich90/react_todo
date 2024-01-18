@@ -1,0 +1,138 @@
+.inputTaskWrapper {
+  position: relative;
+  padding-bottom: 3em;
+
+  .inputTaskHeader {
+    display: flex;
+
+    &Collapse {
+      flex-shrink: 0;
+      background-color: transparent;
+      border-radius: 0.25em;
+      cursor: pointer;
+      margin-inline-end: 0.25em;
+      outline: transparent;
+      width: 2em;
+      height: 2em;
+      transition: background-color calc(var(--trans-dur) / 2) linear,
+        color var(--trans-dur);
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    &CollapseIcon {
+      display: block;
+      pointer-events: none;
+      //   transform: rotate(-90deg);
+      transform: rotate(1deg);
+      transition: transform var(--trans-dur) var(--trans-timing);
+      width: 100%;
+      height: 100%;
+    }
+    &Dot {
+      flex-shrink: 0;
+      background-color: currentColor;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0.625em 0;
+      margin-inline-end: 1em;
+      position: relative;
+      width: 0.75em;
+      height: 0.75em;
+    }
+    &Meta {
+      width: 100%;
+    }
+  }
+
+  &:not(:last-child):before {
+    background-color: currentColor;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 1em;
+    left: 2.625em;
+    width: 0.125em;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+
+  .inputTask {
+    background-color: hsl(var(--hue), 10%, 50%, 0.2);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    padding-right: 15px;
+    margin-inline-start: 4em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &Checkbox {
+      border: 1px solid var(--primary);
+      border-radius: 2px;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    &Label {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      cursor: pointer;
+      padding: 12px 15px;
+    }
+
+    &Title {
+      line-height: 0.4;
+    }
+
+    &Text {
+      margin: 5px 1em;
+      font-weight: 400;
+    }
+
+    &TextEdit {
+      font: 1rem/1em "Roboto", sans-serif;
+      border: none;
+      padding: 5px;
+      background: none;
+      box-shadow: 0 4px 0 -3px var(--primary);
+    }
+
+    &Edit,
+    &Remove,
+    &Save {
+      display: block;
+      height: 100%;
+      width: 50px;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    &HeaderCollapseIcon {
+      background: url("./images/down.svg") no-repeat center center;
+    }
+
+    &Edit {
+      background: url("./images/edit.svg") no-repeat center center;
+    }
+
+    &Save {
+      background: url("./images/check.svg") no-repeat center center;
+    }
+
+    &Remove {
+      background: url("./images/trash.svg") no-repeat center center;
+    }
+  }
+}

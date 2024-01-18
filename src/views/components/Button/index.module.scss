@@ -1,0 +1,16 @@
+.button {
+  font-size: 1.2em;
+  padding: 0.375em 0.75em;
+  min-height: 32px;
+  border-radius: 0.25em;
+  color: var(--bg);
+  background: var(--fg);
+  margin-right: 0.5em;
+  min-width: 60px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: hsl(var(--hue), 10%, 50%);
+  }
+}
