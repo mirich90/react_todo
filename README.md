@@ -7,4 +7,4 @@
 
 ### Главная страница сайта:
 
-![Alt-текст](https://github.com/mirich90/react_todo/blob/master/1.png?raw=true "Главная страница сайта")
+![Alt-текст](https://github.com/mirich90/react_todo/blob/master/1.PNG?raw=true "Главная страница сайта")
